@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <script src="{{ url_for('static', filename='js/script.js') }}" defer></script>
+    <title>Document</title>
+</head>
+<body class="body">
+
+    <div class="header">
+        <h1>Message form</h1>
+    
+
+        {% if loggedin == "0" %}
+        <div class="nav">
+            <p><a href="/login">Login</a> / <a href="/signup">Signup</a></p>
+        </div>
+        {% else %}
+        <div class="nav">
+            <p><a href="/logout">Logout</a></p>
+        </div>
+        {% endif %}
+    </div>
+
+    <div class="content">
+
+        <form id="form" method="post" action="/submit" class="form">
+
+            {% if loggedin == "0" %}
+
+            <div class="input-container">
+                <input type="text" id="name" name="name" class="input" style="display: none;">
+                <label for="name" class="placeholder">Name</label>
+            </div>
+            <div class="input-container">
+                <input type="text" name="email" class="input">
+                <label for="email" class="placeholder">Email</label>
+            </div>
+
+            {% else %}
+
+            <p id="welcome-message">Welcome, {{ name }}</p>
+
+            {% endif %}
+
+            <div class="input-container" id="message-container">
+                <textarea type="text" class="message-input" name="message" rows="4"></textarea>
+                <label for="message" class="placeholder">Message</label>
+            </div>
+
+            <button type="submit" class="submit">Submit</button>
+        </form>
+        {% if err == "3"%}
+        <p id="err">*Unknown error</p>
+        {% endif %}
+        
+        <div class="messages">
+            <h1>Messages</h1>
+            {% for message in messages %}
+            <div class="message">
+                <h2>{{ message.name }}</h2>
+                <p id="email-display">{{ message.email }}</p>
+                <div class="message-content">
+                    <p>{{ message.content }}</p>
+                </div>
+                
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</body>
+</html>
